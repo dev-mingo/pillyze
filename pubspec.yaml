@@ -1,0 +1,59 @@
+name: pillyze
+description: "Pillyze Test Project"
+publish_to: 'none'
+
+# 사용하는 Flutter 버전을 고정하기 위해
+# '>=' 혹은 '<'을 사용하지 않고, 하나의 버전만을 명시한다.
+environment:
+  sdk: "^3.3.4"
+  flutter: "3.19.6"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  animations: ^2.0.4
+  dio: ^5.0.1
+  equatable: ^2.0.5
+  fluro: ^2.0.3
+  flutter_hooks: ^0.20.0
+  get_it: ^7.2.0
+  hooks_riverpod: ^2.3.6
+  intl: ^0.18.0
+  intl_utils: ^2.7.0
+  json_annotation: ^4.6.0
+  logger: ^2.0.0
+  permission_handler: ^11.0.1
+  pretty_dio_logger: ^1.1.1
+  riverpod_annotation: ^2.1.1
+  rxdart: ^0.27.5
+
+dependency_overrides:
+  camera_android:
+    git:
+      url: https://github.com/dev-mingo/flutter_packages.git
+      path: packages/camera/camera_android
+      ref: 6e3621e5fd881f14397a50810e2e9410bc305923
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  build_runner: ^2.2.0
+  flutter_lints: ^2.0.1
+  json_serializable: ^6.3.1
+
+  custom_lint:
+  riverpod_generator: ^2.2.3
+  riverpod_lint: ^2.1.1
+
+flutter:
+  uses-material-design: true
+
+flutter_intl:
+  enabled: true
+  main_locale: ko
+  arb_dir: lib/presentation/ui/localization/l10n
+  output_dir: lib/presentation/ui/localization/generated
