@@ -4,10 +4,7 @@ class BloodSugarRepositoryImpl extends BloodSugarRepository {
   BloodSugarRepositoryImpl();
 
   @override
-  Future<List<BloodSugarRecord>> getBloodSugarWithinRange({
-    required DateTime startDate,
-    required DateTime endDate,
-  }) async {
+  Future<List<BloodSugarRecord>> getBloodSugarRecords() async {
     try {
       final serializedString =
           await rootBundle.loadString(FileAssets.chartDataJson);

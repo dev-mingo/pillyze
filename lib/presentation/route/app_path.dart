@@ -1,6 +1,7 @@
 import 'package:pillyze/exports.dart';
 
 enum AppPath {
+  bloodSugarChart('/bloodSugarChart'),
   splash('/');
 
   final String routeName;

@@ -1,0 +1,13 @@
+name: flutter_view_model
+description: A brick that creates the Flutter view model
+
+version: 0.1.0+1
+
+environment:
+  mason: ">=0.1.0-dev.41 <0.1.0"
+
+vars:
+  view_model_name:
+    type: string
+    description: Name of the view model
+    prompt: What is the name of the view model in PascalCase?

@@ -15,6 +15,8 @@ class AppTheme {
   static const defaultSlowAnimationSpeed = Duration(milliseconds: 400);
   static const defaultNavigationTransitionSpeed = Duration(milliseconds: 300);
 
+  static const defaultSplashDuration = Duration(seconds: 2);
+
   static const colorScheme = ColorScheme.light(
     primary: Palette.black,
     onPrimary: Palette.white,
