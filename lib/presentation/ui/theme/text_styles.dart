@@ -4,6 +4,7 @@ class TextStyles {
   const TextStyles._();
 
   static const _defaultTextStyle = TextStyle(
+    fontFamily: AppTheme.defaultFontFamily,
     leadingDistribution: TextLeadingDistribution.even,
   );
 

@@ -7,6 +7,8 @@ export 'text_styles.dart';
 class AppTheme {
   const AppTheme._();
 
+  static const defaultFontFamily = 'Pretendard';
+
   static const testAnimationSpeed = Duration(seconds: 10);
 
   static const defaultFastAnimationSpeed = Duration(milliseconds: 100);

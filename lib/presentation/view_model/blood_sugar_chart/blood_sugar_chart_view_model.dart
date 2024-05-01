@@ -15,6 +15,8 @@ class BloodSugarChartViewModel extends BaseViewModel<BloodSugarChartState> {
       updateScreenStatus(ScreenStatusType.loading);
       notifyListeners();
 
+      await Future.delayed(const Duration(seconds: 1));
+
       _bloodSugarRecords = await _bloodSugarRepository.getBloodSugarRecords();
 
       updateScreenStatus(ScreenStatusType.loaded);

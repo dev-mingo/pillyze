@@ -29,7 +29,7 @@ class BloodSugarChartView extends HookConsumerWidget {
             .map((e) => FlSpot(e.x, e.y))
             .toList(growable: false);
 
-        return _getLineChartDataFrom(points, line);
+        return _getLineChartDataFrom(context, points, line);
       },
       [bloodSugarRecords],
     );
@@ -49,6 +49,7 @@ class BloodSugarChartView extends HookConsumerWidget {
   }
 
   LineChartData _getLineChartDataFrom(
+    BuildContext context,
     List<FlSpot> points,
     FlLine line,
   ) {
@@ -113,10 +114,11 @@ class BloodSugarChartView extends HookConsumerWidget {
             showTitles: true,
             getTitlesWidget: (value, _) => Text(
               horizontalTitleVisibleFor(value) ? value.toStringAsFixed(0) : '',
-              style: const TextStyle(
-                fontSize: 12,
-                color: Palette.chartTextGrey,
-              ),
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Palette.chartTextGrey,
+                  ),
               textAlign: TextAlign.right,
             ),
             reservedSize: 32,
