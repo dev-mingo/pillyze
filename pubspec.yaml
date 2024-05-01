@@ -19,6 +19,7 @@ dependencies:
   equatable: ^2.0.5
   fluro: ^2.0.3
   flutter_hooks: ^0.20.0
+  fl_chart: ^0.67.0
   get_it: ^7.2.0
   hooks_riverpod: ^2.3.6
   intl: ^0.18.0

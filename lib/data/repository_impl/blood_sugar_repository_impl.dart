@@ -18,8 +18,6 @@ class BloodSugarRepositoryImpl extends BloodSugarRepository {
           .map<BloodSugarRecord>((e) => e.toDomainModel())
           .toList(growable: false);
 
-      Logger.d(bloodSugarRecords);
-
       return bloodSugarRecords;
     } catch (e) {
       throw DomainError(errorCode: ErrorCode.unknown, cause: e);

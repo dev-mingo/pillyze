@@ -24,7 +24,7 @@ class AppAnimatedViewLoader extends StatelessWidget {
 
     switch (screenStatus) {
       case ScreenStatusType.loading:
-        view = loadingViewBuilder?.call(context) ?? const _LoadingView();
+        view = loadingViewBuilder?.call(context) ?? const AppLoadingView();
         break;
       case ScreenStatusType.loaded:
         view = loadedViewBuilder?.call(context);
@@ -53,19 +53,6 @@ class AppAnimatedViewLoader extends StatelessWidget {
         );
       },
       child: view,
-    );
-  }
-}
-
-class _LoadingView extends StatelessWidget {
-  const _LoadingView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Loading',
-      ),
     );
   }
 }

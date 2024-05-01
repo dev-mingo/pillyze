@@ -36,7 +36,5 @@ class BloodSugarRecordDto {
   BloodSugarRecord toDomainModel() => BloodSugarRecord(
         x: x,
         y: y,
-        y2: y2,
-        dateTime: dateTime,
       );
 }
