@@ -1,4 +1,4 @@
-package com.dev.mingo.pillyze.pillyze
+package com.dev.mingo.pillyze
 
 import io.flutter.embedding.android.FlutterActivity
 
