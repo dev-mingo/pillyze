@@ -7,6 +7,9 @@ final _bloodSugarRecordsSelector = bloodSugarChartViewModelProvider
 class BloodSugarChartView extends HookConsumerWidget {
   static const double _minY = 0;
   static const double _maxY = 300;
+  static const double _normalRangeStartY = 90;
+  static const double _normalRangeEndY = 140;
+  static const double _normalRangeGradientOffset = 10;
   static const double _defaultBarThickness = 4;
   static const double _defaultHorizontalInterval = 50;
 
@@ -16,23 +19,20 @@ class BloodSugarChartView extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bloodSugarRecords = ref.watch(_bloodSugarRecordsSelector);
 
-    final points = useMemoized(
-      () => bloodSugarRecords.list
-          .map((e) => e.toPoint())
-          .toList(growable: false),
-      [bloodSugarRecords],
-    );
-
     final line = useMemoized(
       () => const FlLine(color: Palette.chartGrey, strokeWidth: 2),
     );
 
-    // final chartData = useMemoized(
-    //   () => _getLineChartDataFrom(points, line),
-    //   [points],
-    // );
+    final chartData = useMemoized(
+      () {
+        final points = bloodSugarRecords.list
+            .map((e) => FlSpot(e.x, e.y))
+            .toList(growable: false);
 
-    final chartData = _getLineChartDataFrom(points, line);
+        return _getLineChartDataFrom(points, line);
+      },
+      [bloodSugarRecords],
+    );
 
     return Center(
       child: Container(
@@ -56,20 +56,48 @@ class BloodSugarChartView extends HookConsumerWidget {
     final yValues = points.map((e) => e.y).toList(growable: false);
     final minX = xValues.reduce(min);
     final maxX = xValues.reduce(max);
+    final minY = yValues.reduce(min);
+    final maxY = yValues.reduce(max);
 
-    bool showHorizontalLines(double value) =>
+    double normalize(double value) => (value - minY) / (maxY - minY);
+
+    final stops = [
+      minY,
+      _normalRangeStartY - _normalRangeGradientOffset,
+      _normalRangeStartY + _normalRangeGradientOffset,
+      _normalRangeEndY - _normalRangeGradientOffset,
+      _normalRangeEndY + _normalRangeGradientOffset,
+      maxY,
+    ];
+    final normalizedStops = stops.map(normalize).toList(growable: false);
+
+    bool horizontalLineVisibleFor(double value) =>
         (value % _defaultHorizontalInterval == 0);
-    bool showHorizontalTitles(double value) =>
-        showHorizontalLines(value) && (value != _minY) && (value != _maxY);
+    bool horizontalTitleVisibleFor(double value) =>
+        horizontalLineVisibleFor(value) && (value != _minY) && (value != _maxY);
 
     return LineChartData(
       lineBarsData: [
         LineChartBarData(
           spots: points,
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: const [
+              Palette.chartRed,
+              Palette.chartRed,
+              Palette.chartAqua,
+              Palette.chartAqua,
+              Palette.chartYellow,
+              Palette.chartYellow,
+            ],
+            stops: normalizedStops,
+          ),
           dotData: const FlDotData(show: false),
           barWidth: _defaultBarThickness,
           isCurved: true,
-          belowBarData: BarAreaData(show: false),
+          isStrokeCapRound: true,
+          isStrokeJoinRound: true,
         ),
       ],
       titlesData: FlTitlesData(
@@ -79,7 +107,7 @@ class BloodSugarChartView extends HookConsumerWidget {
           sideTitles: SideTitles(
             showTitles: true,
             getTitlesWidget: (value, _) => Text(
-              showHorizontalTitles(value) ? value.toStringAsFixed(0) : '',
+              horizontalTitleVisibleFor(value) ? value.toStringAsFixed(0) : '',
               style: const TextStyle(
                 fontSize: 12,
                 color: Palette.chartTextGrey,
@@ -97,7 +125,7 @@ class BloodSugarChartView extends HookConsumerWidget {
         drawVerticalLine: false,
         horizontalInterval: _defaultHorizontalInterval,
         getDrawingHorizontalLine: (value) => line,
-        checkToShowHorizontalLine: (value) => showHorizontalLines(value),
+        checkToShowHorizontalLine: (value) => horizontalLineVisibleFor(value),
       ),
       borderData: FlBorderData(show: false),
       minX: minX - 100,
@@ -106,8 +134,4 @@ class BloodSugarChartView extends HookConsumerWidget {
       maxY: _maxY,
     );
   }
-}
-
-extension _BloodSugarRecordExtension on BloodSugarRecord {
-  FlSpot toPoint() => FlSpot(x, y);
 }
