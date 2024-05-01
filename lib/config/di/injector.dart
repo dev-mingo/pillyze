@@ -21,7 +21,9 @@ class _Injector {
 
     // Register repository objects.
     {
-
+      _instance.registerSingleton<BloodSugarRepository>(
+        BloodSugarRepositoryImpl(),
+      );
     }
   }
 }
