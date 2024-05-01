@@ -11,6 +11,7 @@ class BloodSugarChartScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     useInit(
+      // 최초 빌드시 데이터 불러옴
       ref
           .read(bloodSugarChartViewModelProvider)
           .onBloodSugarChartScreenLaunched,

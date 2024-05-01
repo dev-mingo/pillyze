@@ -55,18 +55,19 @@ class BloodSugarChartView extends HookConsumerWidget {
   ) {
     final xValues = points.map((e) => e.x).toList(growable: false);
     final yValues = points.map((e) => e.y).toList(growable: false);
-    final minX = xValues.reduce(min);
-    final maxX = xValues.reduce(max);
-    final minY = yValues.reduce(min);
-    final maxY = yValues.reduce(max);
+    final minX = xValues.reduce(min); // 데이터의 X축 최소
+    final maxX = xValues.reduce(max); // 데이터의 X축 최대
+    final minY = yValues.reduce(min); // 데이터의 Y축 최소
+    final maxY = yValues.reduce(max); // 데이터의 Y축 최대
 
-    final chartMinX = minX - 100;
-    final chartMaxX = maxX * 2;
-    const chartMinY = _minY - 1;
-    const chartMaxY = _maxY;
+    final chartMinX = minX - 100; // 차트의 X축 최소
+    final chartMaxX = maxX * 2; // 차트의 X축 최대
+    const chartMinY = _minY - 1; // 차트의 Y축 최소
+    const chartMaxY = _maxY; // 차트의 Y축 최대
 
-    double normalize(double value) => (value - minY) / (maxY - minY);
+    double normalize(double value) => (value - minY) / (maxY - minY); // 정규화 함수
 
+    // Gradient 멈추는 구간 설정
     final stops = [
       minY,
       _normalRangeStartY - _normalRangeGradientOffset,
@@ -77,9 +78,9 @@ class BloodSugarChartView extends HookConsumerWidget {
     ];
     final normalizedStops = stops.map(normalize).toList(growable: false);
 
-    bool horizontalLineVisibleFor(double value) =>
+    bool horizontalLineVisibleFor(double value) => // 횡 구분선 표시 여부
         (value % _defaultHorizontalInterval == 0);
-    bool horizontalTitleVisibleFor(double value) =>
+    bool horizontalTitleVisibleFor(double value) => // 오른쪽 Y축 label 표시 여부
         horizontalLineVisibleFor(value) && (value != _minY) && (value != _maxY);
 
     return LineChartData(

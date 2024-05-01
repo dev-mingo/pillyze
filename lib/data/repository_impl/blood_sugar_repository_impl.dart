@@ -25,6 +25,7 @@ class BloodSugarRepositoryImpl extends BloodSugarRepository {
   }
 }
 
+// JSON Serialization이 리소스가 큰 작업이므로, Isolate로 분리
 Future<dynamic> _mockHttpRequest(String fileAsset) async {
   final serializedString = await rootBundle.loadString(fileAsset);
   final json = jsonDecode(serializedString);
