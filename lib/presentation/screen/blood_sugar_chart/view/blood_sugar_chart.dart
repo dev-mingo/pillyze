@@ -59,6 +59,11 @@ class BloodSugarChartView extends HookConsumerWidget {
     final minY = yValues.reduce(min);
     final maxY = yValues.reduce(max);
 
+    final chartMinX = minX - 100;
+    final chartMaxX = maxX * 2;
+    const chartMinY = _minY - 1;
+    const chartMaxY = _maxY;
+
     double normalize(double value) => (value - minY) / (maxY - minY);
 
     final stops = [
@@ -127,11 +132,20 @@ class BloodSugarChartView extends HookConsumerWidget {
         getDrawingHorizontalLine: (value) => line,
         checkToShowHorizontalLine: (value) => horizontalLineVisibleFor(value),
       ),
+      rangeAnnotations: RangeAnnotations(
+        horizontalRangeAnnotations: [
+          HorizontalRangeAnnotation(
+            y1: _normalRangeStartY,
+            y2: _normalRangeEndY,
+            color: Palette.chartBackgroundRangeAqua,
+          ),
+        ],
+      ),
       borderData: FlBorderData(show: false),
-      minX: minX - 100,
-      maxX: maxX * 2,
-      minY: _minY - 1,
-      maxY: _maxY,
+      minX: chartMinX,
+      maxX: chartMaxX,
+      minY: chartMinY,
+      maxY: chartMaxY,
     );
   }
 }
