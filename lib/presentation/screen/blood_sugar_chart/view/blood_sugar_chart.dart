@@ -126,6 +126,33 @@ class BloodSugarChartView extends HookConsumerWidget {
         ),
         bottomTitles: const AxisTitles(),
       ),
+      lineTouchData: LineTouchData(
+        touchTooltipData: LineTouchTooltipData(
+          tooltipRoundedRadius: 8,
+          getTooltipItems: (touchedSpots) => touchedSpots
+              .map((e) => LineTooltipItem(
+                    e.y.toStringAsFixed(2),
+                    Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 14,
+                          color: e.colorBasedOnY,
+                        ),
+                  ))
+              .toList(growable: false),
+        ),
+        getTouchedSpotIndicator: (barData, spotIndexes) => spotIndexes
+            .map((index) => TouchedSpotIndicatorData(
+                  line,
+                  FlDotData(
+                    show: true,
+                    getDotPainter: (spot, _, __, ___) => FlDotCirclePainter(
+                      radius: 8,
+                      color: spot.colorBasedOnY,
+                    ),
+                  ),
+                ))
+            .toList(growable: false),
+        handleBuiltInTouches: true,
+      ),
       gridData: FlGridData(
         show: true,
         drawHorizontalLine: true,
@@ -149,5 +176,19 @@ class BloodSugarChartView extends HookConsumerWidget {
       minY: chartMinY,
       maxY: chartMaxY,
     );
+  }
+}
+
+extension _FlSpotExtension on FlSpot {
+  Color get colorBasedOnY {
+    if (y < BloodSugarChartView._normalRangeStartY) {
+      return Palette.chartRed;
+    }
+
+    if (y > BloodSugarChartView._normalRangeEndY) {
+      return Palette.chartYellow;
+    }
+
+    return Palette.chartAqua;
   }
 }
